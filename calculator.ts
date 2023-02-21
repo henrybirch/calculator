@@ -67,3 +67,50 @@ function addOperationButtons() {
 
 addNumberButtons()
 addOperationButtons()
+
+let curr: null | Exp = null
+let isOp: boolean = false
+let isFirstNumber: boolean = false
+let isSecondNumber: boolean = false
+let firstNumber = null
+let secondNumber = null
+
+function doNumber(n: number) {
+    function setVars() {
+        if (!isFirstNumber || !isOp) {
+            firstNumber = n
+            isFirstNumber = true
+            return
+        }
+        if (isOp) {
+            secondNumber = n
+            isSecondNumber = true
+            return;
+        }
+    }
+    setVars()
+    setDisplay(n.toString())
+}
+
+function setDisplay(s: string) {
+    const display = document.getElementById("screen")
+    display.textContent = s
+}
+
+function doPlus() {
+}
+
+function doMinus() {
+}
+
+function doMultiply() {
+}
+
+function doDivide() {
+}
+
+function doClear() {
+}
+
+function doCalc() {
+}

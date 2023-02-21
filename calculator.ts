@@ -128,6 +128,7 @@ function doClear() {
 }
 
 function doCalc() {
+    if (!isOp || !isFirstNumber || !isSecondNumber) return
     curr = op(secondNumber)
     setDisplay(curr.toString + " = " + curr.exp().toString())
     firstNumber = curr

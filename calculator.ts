@@ -57,16 +57,6 @@ function addOperationButtons() {
 }
 
 
-addNumberButtons()
-addOperationButtons()
-let curr: null | Exp = null
-let isOp: boolean = false
-let isFirstNumber: boolean = false
-let isSecondNumber: boolean = false
-let firstNumber: null | Exp = null
-let secondNumber: null | Exp = null
-let op = null
-
 function doNumber(n: Exp) {
     function setVars() {
         if (!isFirstNumber || !isOp) {
@@ -144,3 +134,13 @@ function doCalc() {
     isSecondNumber = false
     isOp = false
 }
+
+addNumberButtons()
+addOperationButtons()
+let curr: null | Exp = null
+let isOp: boolean = false
+let isFirstNumber: boolean = false
+let isSecondNumber: boolean = false
+let firstNumber: null | Exp = null
+let secondNumber: null | Exp = null
+let op = null

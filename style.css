@@ -27,8 +27,31 @@ body {
     background-color: darkslategrey;
     width: 90%;
     height: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-#keypad div {
+#numbers, #operations, #controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50%;
+    flex-wrap: wrap;
+    gap: 15%;
+}
 
+#controls {
+    height: 30%;
+}
+
+.keypad-button {
+    height: 4vh;
+    width: 7vh;
+    background-color: darkolivegreen;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3vh;
 }

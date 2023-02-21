@@ -29,6 +29,8 @@ function addNumberButtons() {
         numbers.appendChild(button)
     }
 }
+function doNumber(n: number) {
+}
 
 function doPlus() {
 }

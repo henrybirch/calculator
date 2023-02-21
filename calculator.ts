@@ -52,6 +52,7 @@ function addOperationButtons() {
     function makeOperationElement(id: string, listener: () => void) {
         const operation = document.createElement("div")
         operation.id = id
+        operation.textContent = id
         operation.classList.add("operation")
         operation.classList.add("keypad-button")
         operation.addEventListener("click", (e) => listener)

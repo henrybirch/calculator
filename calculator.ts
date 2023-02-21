@@ -24,8 +24,10 @@ function addNumberButtons() {
     for (let i = 0; i < 10; i++) {
         const button = document.createElement("div")
         button.id = i.toString()
+        button.textContent = i.toString()
         button.classList.add("number")
         button.classList.add("keypad-button")
+        button.addEventListener("click", (e) => doNumber(i))
         numbers.appendChild(button)
     }
 }

@@ -11,6 +11,10 @@ function plus(a: Exp, b: Exp): Exp {
     return {exp: () => a.exp() + b.exp(), toString: `(${a.toString} + ${b.toString})`}
 }
 
+function minus(a: Exp, b: Exp): Exp {
+    return {exp: () => a.exp() - b.exp(), toString: `(${a.toString} + ${b.toString})`}
+}
+
 function multiply(a: Exp, b: Exp): Exp {
     return {exp: () => a.exp() * b.exp(), toString: `(${a.toString} * ${b.toString})`}
 }
@@ -27,7 +31,7 @@ function addNumberButtons() {
         button.textContent = i.toString()
         button.classList.add("number")
         button.classList.add("keypad-button")
-        button.addEventListener("click", (e) => doNumber(i))
+        button.addEventListener("click", (e) => doNumber(number(i)))
         numbers.appendChild(button)
     }
 }
@@ -42,7 +46,7 @@ function addOperationButtons() {
         operation.textContent = id
         operation.classList.add("operation")
         operation.classList.add("keypad-button")
-        operation.addEventListener("click", (e) => listener)
+        operation.addEventListener("click", (e) => listener())
         return operation
     }
 
@@ -55,15 +59,15 @@ function addOperationButtons() {
 
 addNumberButtons()
 addOperationButtons()
-
 let curr: null | Exp = null
 let isOp: boolean = false
 let isFirstNumber: boolean = false
 let isSecondNumber: boolean = false
-let firstNumber = null
-let secondNumber = null
+let firstNumber: null | Exp = null
+let secondNumber: null | Exp = null
+let op = null
 
-function doNumber(n: number) {
+function doNumber(n: Exp) {
     function setVars() {
         if (!isFirstNumber || !isOp) {
             firstNumber = n
@@ -76,8 +80,13 @@ function doNumber(n: number) {
             return;
         }
     }
+
     setVars()
-    setDisplay(n.toString())
+    setDisplay(n.exp().toString())
+}
+
+function canSetOperator() {
+    return isFirstNumber && !isSecondNumber
 }
 
 function setDisplay(s: string) {
@@ -85,20 +94,53 @@ function setDisplay(s: string) {
     display.textContent = s
 }
 
+function doOp(opString: string, func: (a: Exp, b: Exp) => Exp) {
+    op = (x: Exp) => func(firstNumber, x)
+    isOp = true
+    setDisplay(opString)
+}
+
+
 function doPlus() {
+    if (canSetOperator()) {
+        doOp("+", plus)
+    }
 }
 
 function doMinus() {
+    if (canSetOperator()) {
+        doOp("-", minus)
+    }
+
 }
 
 function doMultiply() {
+    if (canSetOperator()) {
+        doOp("*", multiply)
+    }
 }
 
 function doDivide() {
+    if (canSetOperator()) {
+        doOp("/", divide)
+    }
 }
 
 function doClear() {
+    curr = null
+    isOp = false
+    isFirstNumber = false
+    isSecondNumber = false
+    firstNumber = null
+    secondNumber = null
+    op = null
+    setDisplay("")
 }
 
 function doCalc() {
+    curr = op(secondNumber)
+    setDisplay(curr.toString + " = " + curr.exp().toString())
+    firstNumber = curr
+    isSecondNumber = false
+    isOp = false
 }

@@ -31,20 +31,7 @@ function addNumberButtons() {
         numbers.appendChild(button)
     }
 }
-function doNumber(n: number) {
-}
 
-function doPlus() {
-}
-
-function doMinus() {
-}
-
-function doMultiply() {
-}
-
-function doDivide() {
-}
 
 function addOperationButtons() {
     const operations = document.getElementById("operations")
@@ -64,6 +51,7 @@ function addOperationButtons() {
     operations.appendChild(makeOperationElement("*", doMultiply))
     operations.appendChild(makeOperationElement("/", doDivide))
 }
+
 
 addNumberButtons()
 addOperationButtons()

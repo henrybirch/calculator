@@ -67,29 +67,29 @@ function setDisplay(s) {
     var display = document.getElementById("screen");
     display.textContent = s;
 }
-function doOp(opString, func) {
+function setOp(opString, func) {
     op = function (x) { return func(firstNumber, x); };
     isOp = true;
     setDisplay(opString);
 }
 function doPlus() {
     if (canSetOperator()) {
-        doOp("+", plus);
+        setOp("+", plus);
     }
 }
 function doMinus() {
     if (canSetOperator()) {
-        doOp("-", minus);
+        setOp("-", minus);
     }
 }
 function doMultiply() {
     if (canSetOperator()) {
-        doOp("*", multiply);
+        setOp("*", multiply);
     }
 }
 function doDivide() {
     if (canSetOperator()) {
-        doOp("/", divide);
+        setOp("/", divide);
     }
 }
 function doClear() {

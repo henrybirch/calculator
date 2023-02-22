@@ -84,7 +84,7 @@ function setDisplay(s: string) {
     display.textContent = s
 }
 
-function doOp(opString: string, func: (a: Exp, b: Exp) => Exp) {
+function setOp(opString: string, func: (a: Exp, b: Exp) => Exp) {
     op = (x: Exp) => func(firstNumber, x)
     isOp = true
     setDisplay(opString)
@@ -93,26 +93,26 @@ function doOp(opString: string, func: (a: Exp, b: Exp) => Exp) {
 
 function doPlus() {
     if (canSetOperator()) {
-        doOp("+", plus)
+        setOp("+", plus)
     }
 }
 
 function doMinus() {
     if (canSetOperator()) {
-        doOp("-", minus)
+        setOp("-", minus)
     }
 
 }
 
 function doMultiply() {
     if (canSetOperator()) {
-        doOp("*", multiply)
+        setOp("*", multiply)
     }
 }
 
 function doDivide() {
     if (canSetOperator()) {
-        doOp("/", divide)
+        setOp("/", divide)
     }
 }
 
@@ -144,4 +144,4 @@ let isFirstNumber: boolean = false
 let isSecondNumber: boolean = false
 let firstNumber: null | Exp = null
 let secondNumber: null | Exp = null
-let op = null
+let op: null | ((x: Exp) => Exp) = null

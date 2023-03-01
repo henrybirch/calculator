@@ -2,16 +2,28 @@ function number(n) {
     return { exp: function () { return n; }, toString: n.toString() };
 }
 function plus(a, b) {
-    return { exp: function () { return a.exp() + b.exp(); }, toString: "(".concat(a.toString, " + ").concat(b.toString, ")") };
+    return {
+        exp: function () { return a.exp() + b.exp(); },
+        toString: "(".concat(a.toString, " + ").concat(b.toString, ")"),
+    };
 }
 function minus(a, b) {
-    return { exp: function () { return a.exp() - b.exp(); }, toString: "(".concat(a.toString, " + ").concat(b.toString, ")") };
+    return {
+        exp: function () { return a.exp() - b.exp(); },
+        toString: "(".concat(a.toString, " + ").concat(b.toString, ")"),
+    };
 }
 function multiply(a, b) {
-    return { exp: function () { return a.exp() * b.exp(); }, toString: "(".concat(a.toString, " * ").concat(b.toString, ")") };
+    return {
+        exp: function () { return a.exp() * b.exp(); },
+        toString: "(".concat(a.toString, " * ").concat(b.toString, ")"),
+    };
 }
 function divide(a, b) {
-    return { exp: function () { return a.exp() / b.exp(); }, toString: "(".concat(a.toString, " / ").concat(b.toString, ")") };
+    return {
+        exp: function () { return a.exp() / b.exp(); },
+        toString: "(".concat(a.toString, " / ").concat(b.toString, ")"),
+    };
 }
 function addNumberButtons() {
     var numbers = document.getElementById("numbers");
@@ -21,7 +33,7 @@ function addNumberButtons() {
         button.textContent = i.toString();
         button.classList.add("number");
         button.classList.add("keypad-button");
-        button.addEventListener("click", function (e) { return doNumber(number(i)); });
+        button.addEventListener("click", function () { return doNumber(number(i)); });
         numbers.appendChild(button);
     };
     for (var i = 0; i < 10; i++) {
@@ -36,7 +48,7 @@ function addOperationButtons() {
         operation.textContent = id;
         operation.classList.add("operation");
         operation.classList.add("keypad-button");
-        operation.addEventListener("click", function (e) { return listener(); });
+        operation.addEventListener("click", function () { return listener(); });
         return operation;
     }
     operations.appendChild(makeOperationElement("+", doPlus));
@@ -92,28 +104,8 @@ function doDivide() {
         setOp("/", divide);
     }
 }
-function doClear() {
-    curr = null;
-    isOp = false;
-    isFirstNumber = false;
-    isSecondNumber = false;
-    firstNumber = null;
-    secondNumber = null;
-    op = null;
-    setDisplay("");
-}
-function doCalc() {
-    if (!isOp || !isFirstNumber || !isSecondNumber)
-        return;
-    curr = op(secondNumber);
-    setDisplay(curr.toString + " = " + curr.exp().toString());
-    firstNumber = curr;
-    isSecondNumber = false;
-    isOp = false;
-}
 addNumberButtons();
 addOperationButtons();
-var curr = null;
 var isOp = false;
 var isFirstNumber = false;
 var isSecondNumber = false;

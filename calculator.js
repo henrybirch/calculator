@@ -104,6 +104,14 @@ function doDivide() {
         setOp("/", divide);
     }
 }
+function doCalc() {
+    if (!op) {
+        return;
+    }
+    setDisplay(op(secondNumber).toString);
+    firstNumber = op(secondNumber);
+    isSecondNumber = false;
+}
 addNumberButtons();
 addOperationButtons();
 var isOp = false;

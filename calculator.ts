@@ -69,14 +69,14 @@ function addOperationButtons() {
 
 function doNumber(n: Exp) {
   function setVars() {
-    if (!isFirstNumber || !isOp) {
-      firstNumber = n;
-      isFirstNumber = true;
+    if (!state.isFirstNumber || !state.isOp) {
+      state.firstNumber = n;
+      state.isFirstNumber = true;
       return;
     }
-    if (isOp) {
-      secondNumber = n;
-      isSecondNumber = true;
+    if (state.isOp) {
+      state.secondNumber = n;
+      state.isSecondNumber = true;
       return;
     }
   }
@@ -86,7 +86,7 @@ function doNumber(n: Exp) {
 }
 
 function canSetOperator() {
-  return isFirstNumber && !isSecondNumber;
+  return state.isFirstNumber && !state.isSecondNumber;
 }
 
 function setDisplay(s: string) {
@@ -95,8 +95,8 @@ function setDisplay(s: string) {
 }
 
 function setOp(opString: string, func: (a: Exp, b: Exp) => Exp) {
-  op = (x: Exp) => func(firstNumber, x);
-  isOp = true;
+  state.operator = (x: Exp) => func(state.firstNumber, x);
+  state.isOp = true;
   setDisplay(opString);
 }
 
@@ -125,19 +125,44 @@ function doDivide() {
 }
 
 function doCalc() {
-  if (!op) {
+  if (!state.operator) {
     return;
   }
-  setDisplay(op(secondNumber).toString);
-  firstNumber = op(secondNumber);
-  isSecondNumber = false;
+  const result = state.operator(state.secondNumber);
+  setDisplay(`${result.toString} = ${result.exp().toString()}`);
+  state.firstNumber = state.operator(state.secondNumber);
+  state.isSecondNumber = false;
+  state.isOp = false;
+}
+
+function doClear() {
+  setDisplay("");
+  state = getFreshState();
+}
+
+type Operator = (x: Exp) => Exp | null;
+type State = {
+  isOp: boolean;
+  isFirstNumber: boolean;
+  isSecondNumber: boolean;
+  firstNumber: null | Exp;
+  secondNumber: null | Exp;
+  operator: Operator;
+};
+
+function getFreshState(): State {
+  return {
+    isOp: false,
+    isFirstNumber: false,
+    isSecondNumber: false,
+    firstNumber: null,
+    secondNumber: null,
+    operator: null,
+  };
 }
 
 addNumberButtons();
 addOperationButtons();
-let isOp: boolean = false;
-let isFirstNumber: boolean = false;
-let isSecondNumber: boolean = false;
-let firstNumber: null | Exp = null;
-let secondNumber: null | Exp = null;
-let op: null | ((x: Exp) => Exp) = null;
+
+let state = getFreshState();
+setDisplay("");

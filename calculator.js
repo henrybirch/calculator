@@ -58,14 +58,14 @@ function addOperationButtons() {
 }
 function doNumber(n) {
     function setVars() {
-        if (!isFirstNumber || !isOp) {
-            firstNumber = n;
-            isFirstNumber = true;
+        if (!state.isFirstNumber || !state.isOp) {
+            state.firstNumber = n;
+            state.isFirstNumber = true;
             return;
         }
-        if (isOp) {
-            secondNumber = n;
-            isSecondNumber = true;
+        if (state.isOp) {
+            state.secondNumber = n;
+            state.isSecondNumber = true;
             return;
         }
     }
@@ -73,15 +73,15 @@ function doNumber(n) {
     setDisplay(n.exp().toString());
 }
 function canSetOperator() {
-    return isFirstNumber && !isSecondNumber;
+    return state.isFirstNumber && !state.isSecondNumber;
 }
 function setDisplay(s) {
     var display = document.getElementById("screen");
     display.textContent = s;
 }
 function setOp(opString, func) {
-    op = function (x) { return func(firstNumber, x); };
-    isOp = true;
+    state.operator = function (x) { return func(state.firstNumber, x); };
+    state.isOp = true;
     setDisplay(opString);
 }
 function doPlus() {
@@ -105,18 +105,30 @@ function doDivide() {
     }
 }
 function doCalc() {
-    if (!op) {
+    if (!state.operator) {
         return;
     }
-    setDisplay(op(secondNumber).toString);
-    firstNumber = op(secondNumber);
-    isSecondNumber = false;
+    var result = state.operator(state.secondNumber);
+    setDisplay("".concat(result.toString, " = ").concat(result.exp().toString()));
+    state.firstNumber = state.operator(state.secondNumber);
+    state.isSecondNumber = false;
+    state.isOp = false;
+}
+function doClear() {
+    setDisplay("");
+    state = getFreshState();
+}
+function getFreshState() {
+    return {
+        isOp: false,
+        isFirstNumber: false,
+        isSecondNumber: false,
+        firstNumber: null,
+        secondNumber: null,
+        operator: null,
+    };
 }
 addNumberButtons();
 addOperationButtons();
-var isOp = false;
-var isFirstNumber = false;
-var isSecondNumber = false;
-var firstNumber = null;
-var secondNumber = null;
-var op = null;
+var state = getFreshState();
+setDisplay("");
